@@ -3,18 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Portfolio</title>
+    <title>MJC Dev Portfolio</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body class="bg-intro">
+    <nav class="navbar">
+        <a href="#intro">Home</a>
+        <a href="#education">Education</a>
+        <a href="#projects">Projects</a>
+    </nav>
+
     <canvas id="bg"></canvas>
 
     <main>
-        <section>
-            <h1>My Portfolio</h1>
-            <p>Scroll down to see the cap spin!</p>
+        <section id="intro">
+            <div class="content">
+                <h1>Matthew J. Cheung</h1>
+                <p>A recent University of Melbourne graduate in Computer Science, with aspirations to build innovative software solutions.</p>
+            </div>
         </section>
-        <section style="height: 100vh;"></section> </main>
+
+        <section id="education">
+            <div class="content">
+                <h2>Education</h2>
+                <p>Bachelor of Science in Computer Science</p>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="content">
+                <h2>Projects</h2>
+                <div class="project-grid">
+                    <div class="card"><h3>Project A</h3></div>
+                    <div class="card"><h3>Project B</h3></div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <script type="importmap">
         {

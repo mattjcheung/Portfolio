@@ -1,76 +1,59 @@
+import { initScene } from './scene.js';
+import { loadModels } from './components.js';
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-// 1. Scene Setup
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg'), alpha: true });
-
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.setZ(5);
-
-// 2. Lighting
-const ambientLight = new THREE.AmbientLight(0xffffff, 2);
-const pointLight = new THREE.PointLight(0xffffff, 5);
-pointLight.position.set(5, 5, 5);
-scene.add(ambientLight, pointLight);
-
-// 3. Load Graduation Cap
+const { scene, camera, renderer } = initScene();
 let cap;
-const loader = new GLTFLoader();
-
-loader.load('../public/assets/graduation-cap.glb', (gltf) => {
-    cap = gltf.scene;
-    scene.add(cap);
-    cap.scale.set(2, 2, 2); // Adjust size as needed
-}, undefined, (error) => {
-    console.error('Error loading model:', error);
-});
-
-// 4. Scroll Animation Logic
-function moveCamera() {
-    const t = document.body.getBoundingClientRect().top;
-    if (cap) {
-        // Rotates based on scroll position
-        cap.rotation.y = t * -0.01; 
-        cap.rotation.z = t * -0.002;
-    }
-}
-document.body.onscroll = moveCamera;
-
-// 5. Click to Spin 360 Logic
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
+
+// Animation States
+let targetX = 20;        // Moved further out (20 instead of 10) to ensure it's hidden
+let targetScale = 2;
 let isSpinning = false;
 
-window.addEventListener('click', (event) => {
-    // Convert mouse position to normalized device coordinates (-1 to +1)
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+loadModels(scene, (model) => {
+    cap = model;
+    cap.visible = false; // Start completely hidden
+});
 
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(scene.children, true);
+// 1. Background and Visibility Logic
+const sections = document.querySelectorAll('section');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            document.body.className = `bg-${entry.target.id}`;
+            
+            if (entry.target.id === 'education') {
+                targetX = 2; // Target position in view
+                if (cap) cap.visible = true; // Turn on rendering immediately
+            } else {
+                targetX = 20; // Target position far off-screen
+            }
+        }
+    });
+}, { threshold: 0.5 });
 
-    if (intersects.length > 0 && !isSpinning) {
+sections.forEach(s => observer.observe(s));
+
+// 2. Click Logic (Only if visible)
+window.addEventListener('click', () => {
+    if (cap && cap.visible && targetScale > 2 && !isSpinning) {
         isSpinning = true;
-        spinObject();
+        spin360();
     }
 });
 
-function spinObject() {
+function spin360() {
     const startRotation = cap.rotation.y;
-    const targetRotation = startRotation + Math.PI * 2; // 360 degrees
-    
-    const duration = 1000; // 1 second
+    const targetRotation = startRotation + Math.PI * 2;
+    const duration = 1000;
     const startTime = performance.now();
 
     function animateSpin(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
-        // Easing function for a smooth spin
-        const ease = 1 - Math.pow(1 - progress, 3); 
+        const ease = 1 - Math.pow(1 - progress, 3);
         
         cap.rotation.y = startRotation + (targetRotation - startRotation) * ease;
 
@@ -83,17 +66,44 @@ function spinObject() {
     requestAnimationFrame(animateSpin);
 }
 
-// 6. Animation Loop
+// 3. Optimized Animation Loop
 function animate() {
     requestAnimationFrame(animate);
+
+    if (cap) {
+        // Move X position
+        cap.position.x = THREE.MathUtils.lerp(cap.position.x, targetX, 0.05);
+
+        // PERFORMANCE CHECK: If the cap is far off-screen and we are moving away, hide it
+        if (targetX === 20 && cap.position.x > 18) {
+            cap.visible = false;
+        }
+
+        // Only run interaction logic if the cap is visible
+        if (cap.visible) {
+            // Hover Detection
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObject(cap, true);
+            targetScale = (intersects.length > 0) ? 2.4 : 2.0;
+
+            // Scale LERP
+            const s = THREE.MathUtils.lerp(cap.scale.x, targetScale, 0.1);
+            cap.scale.set(s, s, s);
+
+            // Scroll Rotation (only if not clicking)
+            if (!isSpinning) {
+                const t = document.body.getBoundingClientRect().top;
+                cap.rotation.y = t * -0.002;
+            }
+        }
+    }
+
     renderer.render(scene, camera);
 }
 
-animate();
-
-// Handle Window Resize
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+window.addEventListener('mousemove', (e) => {
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 });
+
+animate();
