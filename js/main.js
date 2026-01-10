@@ -8,13 +8,36 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 // Animation States
-let targetX = 20;        // Moved further out (20 instead of 10) to ensure it's hidden
+let targetX = 20; 
 let targetScale = 2;
 let isSpinning = false;
+let baseScale = 2; // Helper to store responsive base scale
+
+// Helper to calculate responsive position and scale
+function updateResponsiveLayout() {
+    const width = window.innerWidth;
+
+    if (width < 600) { // Mobile
+        // In mobile, we usually want the model centered or slightly offset
+        // We also use smaller targetX values because the FOV is narrower
+        targetX = 0; 
+        baseScale = 1.2;
+    } else if (width < 1024) { // Tablet
+        targetX = 2;
+        baseScale = 1.6;
+    } else { // Desktop
+        targetX = 4;
+        baseScale = 2.2;
+    }
+
+    // Update current targetScale to match new baseScale
+    targetScale = baseScale;
+}
 
 loadModels(scene, (model) => {
     cap = model;
-    cap.visible = false; // Start completely hidden
+    cap.visible = false;
+    updateResponsiveLayout(); // Initialize scale/pos once loaded
 });
 
 // 1. Background and Visibility Logic
@@ -24,11 +47,11 @@ const observer = new IntersectionObserver((entries) => {
         if (entry.isIntersecting) {
             document.body.className = `bg-${entry.target.id}`;
             
-            if (entry.target.id === 'education') {
-                targetX = 2; // Target position in view
-                if (cap) cap.visible = true; // Turn on rendering immediately
+            if (entry.target.id === 'education' || entry.target.id === 'projects') {
+                updateResponsiveLayout(); // Recalculate based on current window size
+                if (cap) cap.visible = true;
             } else {
-                targetX = 20; // Target position far off-screen
+                targetX = 20; // Move far off-screen
             }
         }
     });
@@ -36,11 +59,30 @@ const observer = new IntersectionObserver((entries) => {
 
 sections.forEach(s => observer.observe(s));
 
-// 2. Click Logic (Only if visible)
+// 2. Window Resize Listener (CRITICAL FOR RESPONSIVENESS)
+window.addEventListener('resize', () => {
+    // Update Camera
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // Update Cap Position Logic
+    const currentSection = document.body.className;
+    if (currentSection.includes('education') || currentSection.includes('projects')) {
+        updateResponsiveLayout();
+    }
+});
+
+// 3. Click Logic
 window.addEventListener('click', () => {
-    if (cap && cap.visible && targetScale > 2 && !isSpinning) {
-        isSpinning = true;
-        spin360();
+    if (cap && cap.visible && !isSpinning) {
+        // Check if mouse is over cap using raycaster
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObject(cap, true);
+        if (intersects.length > 0) {
+            isSpinning = true;
+            spin360();
+        }
     }
 });
 
@@ -66,31 +108,32 @@ function spin360() {
     requestAnimationFrame(animateSpin);
 }
 
-// 3. Optimized Animation Loop
+// 4. Optimized Animation Loop
 function animate() {
     requestAnimationFrame(animate);
 
     if (cap) {
-        // Move X position
+        // Smooth Movement (Lerp)
         cap.position.x = THREE.MathUtils.lerp(cap.position.x, targetX, 0.05);
 
-        // PERFORMANCE CHECK: If the cap is far off-screen and we are moving away, hide it
+        // Hide when off-screen
         if (targetX === 20 && cap.position.x > 18) {
             cap.visible = false;
         }
 
-        // Only run interaction logic if the cap is visible
         if (cap.visible) {
-            // Hover Detection
+            // Hover Detection for Scaling
             raycaster.setFromCamera(mouse, camera);
             const intersects = raycaster.intersectObject(cap, true);
-            targetScale = (intersects.length > 0) ? 2.4 : 2.0;
+            
+            // Hover effect adds to the responsive base scale
+            const hoverScale = (intersects.length > 0) ? baseScale * 1.2 : baseScale;
 
             // Scale LERP
-            const s = THREE.MathUtils.lerp(cap.scale.x, targetScale, 0.1);
+            const s = THREE.MathUtils.lerp(cap.scale.x, hoverScale, 0.1);
             cap.scale.set(s, s, s);
 
-            // Scroll Rotation (only if not clicking)
+            // Scroll Rotation
             if (!isSpinning) {
                 const t = document.body.getBoundingClientRect().top;
                 cap.rotation.y = t * -0.002;

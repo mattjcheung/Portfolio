@@ -10,12 +10,23 @@ body {
 .bg-intro { background-color: #405a7c; }
 .bg-education { background-color: #2b2f55; }
 .bg-projects { background-color: #6e2932; }
+.bg-contact { background-color: #1a1a1a; }
 
 #bg {
     position: fixed;
     top: 0;
     left: 0;
     z-index: -1;
+}
+
+#contact .content {
+    pointer-events: auto;
+    text-align: center;
+}
+
+.social-links a {
+    color: #e29912;
+    text-decoration: none;
 }
 
 /* Navigation Bar */
@@ -47,8 +58,29 @@ section {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Aligns items to the left */
     pointer-events: none;
+    transition: padding 0.5s ease; /* Smooth transition when resizing */
+    box-sizing: border-box;
 }
 
+/* Apply padding-left to all sections EXCEPT home and contact.
+   Adjust '10vw' to control how far from the left the text sits.
+*/
+section:not(#intro):not(#contact) {
+    padding-left: 10vw; 
+    text-align: left;
+}
+
+/* Ensure children (h1, p, etc.) have pointer events if needed */
+section > * {
+    pointer-events: auto;
+}
+
+/* Specific styling for Home and Contact to keep them centered */
+#intro, #contact {
+    align-items: center;
+    text-align: center;
+    padding-left: 0;
+}
 .content { pointer-events: auto; }
