@@ -50,6 +50,8 @@ Copy code
 http://localhost:5173
 Open this link in your browser to view the site.
 
+```
+
 🛠️ Tech Stack
 Vite – Fast development build tool
 
