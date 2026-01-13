@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MJC Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <nav class="navbar">
+      <a href="#intro">Home</a>
+      <a href="#education">Education</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <canvas id="bg"></canvas>   
+
+    <main>
+      <header id="intro">
+        <h1><br>Matthew J. Cheung</h1>
+        <p>
+          A recent University of Melbourne graduate in Computing & Software Systems 
+          with a strong interest in software engineering, AI & ML, as well as
+          building polished user experiences.
+        </p>
+        <p>
+          On a more personal note, I enjoy spending my free time outside, whether that
+          be going on long hikes, playing sports, or exploring new places with friends.
+          I strongly value a well-rounded lifestyle that emphasises the importance of
+          work life balance, mental health, and personal growth!
+        </p>
+      </header>
+
+      <section id="education">
+        <h2>Education</h2>
+
+        <p><strong>Bachelor of Science (Computing & Software Systems)</strong></p>
+        <p>The University of Melbourne · 2022 - 2025</p>
+
+        <p>
+          Completed a major in Computer Science with coursework spanning
+          algorithms, data structures, software design, databases, and artificial
+          intelligence.
+        </p>
+
+        <p>
+          Notable subjects included:
+        </p>
+        <ul>
+          <li>Algorithms & Data Structures</li>
+          <li>Object-Oriented Software Development</li>
+          <li>Database Systems</li>
+          <li>Elements of Data Processing</li>
+          <li>Elements of Quantum Computing</li>
+          <li>Artificial Intelligence</li>
+          <li>Machine Learning</li>
+          <li>Computer Systems & Networks</li>
+          <li>Capstone IT Project</li>
+        </ul>
+
+        <p>
+          Having graduated with strong academic performance and a focus on practical,
+          project-based learning, I now set my sights on applying my skills in a professional
+          software engineering role.
+        </p>
+      </section>
+
+      <section id="projects" class="light">
+        <h2>Projects</h2>
+
+        <div class="project-grid">
+
+          <div class="project-card featured">
+            <div class="project-front">
+              <div class="featured-badge">FEATURED PROJECT</div>
+
+              <h3>University Revision Support Platform</h3>
+              <p>
+                A production-ready, full-stack learning support platform developed over
+                12 weeks in a collaborative agile team.
+              </p>
+
+              <p class="role">
+                <strong>Roles:</strong> Product Manager · Design Lead
+              </p>
+
+              <div class="tech-tags">
+                <span>Flutter</span>
+                <span>Node.js</span>
+                <span>AWS</span>
+                <span>Docker</span>
+                <span>PostgreSQL</span>
+              </div>
+            </div>
+
+            <div class="project-back">
+              <ul>
+                <li>Led low- and high-fidelity prototyping using Figma</li>
+                <li>Drove sprint planning, retrospectives, and backlog prioritisation</li>
+                <li>Designed and delivered a RAG-based content generator using OpenAI API</li>
+                <li>Developed within containerised environments using Docker</li>
+                <li>Deployed on AWS using ECS, RDS, Cognito, and CloudFront</li>
+                <li>Worked within CI/CD pipelines with Jira and Confluence</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-front">
+              <h3>Road Sign Classification (CNN)</h3>
+              <p>Deep learning model for real-world road sign recognition.</p>
+
+              <div class="tech-tags">
+                <span>TensorFlow</span>
+                <span>Python</span>
+                <span>CNN</span>
+                <span>Computer Vision</span>
+              </div>
+            </div>
+
+            <div class="project-back">
+              <ul>
+                <li>Top 15% in competitive classification challenge</li>
+                <li>Extensive hyperparameter tuning and preprocessing</li>
+                <li>Critical performance analysis with advanced visualisations</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-front">
+              <h3>MCTS Game Agent</h3>
+              <p>Intelligent agent built using Monte Carlo Tree Search.</p>
+
+              <div class="tech-tags">
+                <span>AI</span>
+                <span>MCTS</span>
+                <span>Game Theory</span>
+              </div>
+            </div>
+
+            <div class="project-back">
+              <ul>
+                <li>Strong emphasis on AI agent theory and evaluation strategies</li>
+                <li>Heuristic-driven mid-game decision making</li>
+                <li>Finalist in university-wide tournament</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-front">
+              <h3>Systems Programming</h3>
+              <p>Low-level memory management and networking in C.</p>
+
+              <div class="tech-tags">
+                <span>C</span>
+                <span>Virtual Memory</span>
+                <span>Networking</span>
+              </div>
+            </div>
+
+            <div class="project-back">
+              <ul>
+                <li>Implemented virtual memory manager with FIFO/LRU policies</li>
+                <li>Built socket programs including DNS and TCP handshakes</li>
+                <li>End-to-end retrieval of HTTP content</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-front">
+              <h3>Game Jam Hackathon</h3>
+              <p>48-hour rapid game development challenge.</p>
+
+              <div class="tech-tags">
+                <span>Godot</span>
+                <span>Game Design</span>
+              </div>
+            </div>
+
+            <div class="project-back">
+              <ul>
+                <li>Built a fully playable game in 2 days, worthy of an honorable mention</li>
+                <li>Rapid onboarding to a new engine and language</li>
+                <li>Individually recognised for final demo delivery</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <section id="contact" class="left">
+        <h2>Get In Touch</h2>
+        <p>
+          I am currently seeking graduate/junior software engineering roles based in Australia,
+          and look forward to learn, develop, and grow from real industry experience!
+        </p>
+        <p>
+          Email: <a href="mailto:mattjcheung03@gmail.com">mattjcheung03@gmail.com</a>
+        <p>
+          LinkedIn: <a href="https://www.linkedin.com/in/mattjcheung/">linkedin.com/in/mattjcheung/</a>
+        </p>
+      </section>
+    </main>
+    
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
