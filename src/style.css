@@ -1,0 +1,257 @@
+@import url("https://use.typekit.net/jmk3xov.css");
+
+/* 1. NAVBAR OFFSET: This ensures content isn't hidden behind the bar when clicking links */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px; 
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+:root {
+  --dark-bg: rgba(15, 15, 15, 0.85);
+  /* 2. SECTION SPACING: Increase this number to put more space between sections */
+  --spacing: 600px; 
+  font-family: brandon-grotesque, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 1.5rem;
+  background: rgba(11, 13, 23, 0.7);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-family: elevon, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  /* ADJUST NAVBAR LINK SIZE HERE */
+  font-size: 1rem; 
+  letter-spacing: 1px;
+  transition: color 0.3s;
+}
+
+main {
+  width: 100vw;
+  color: rgb(255, 255, 255);
+  z-index: 99;
+  position: absolute;
+  width: 100%;
+  margin: 0px auto;
+  padding: 120px 0px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+/* ADJUST FONT SIZES FOR HEADINGS HERE */
+h1 { font-size: 3.5rem;
+     text-shadow: 0 0 10px rgb(255, 131, 131);
+     color: rgb(255, 186, 186); }
+h2 { font-size: 2.5rem; }
+h3 { font-size: 1.8rem; }
+
+header {
+  /* background: var(--dark-bg); */
+  grid-column: 2 / span 5;
+  /* ADJUST INTRO TEXT SIZE HERE */
+  font-size: 1.8rem;
+  padding: 2rem;
+  margin-bottom: var(--spacing);
+}
+
+section {
+  grid-column: 2 / 8;
+  padding: 2rem;
+  background: var(--dark-bg);
+  /* ADJUST BODY TEXT (P tags) SIZE HERE */
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin-bottom: var(--spacing);
+  border-radius: 8px;
+}
+
+section:last-of-type {
+  margin-bottom: 0;
+}
+
+blockquote p {
+  color: black;
+  background-color: white;
+  /* ADJUST LARGE QUOTE TEXT SIZE HERE */
+  font-size: 4rem;
+  display: inline;
+  line-height: 1;
+}
+
+.left {
+  grid-column: 6 / 12;
+}
+
+.card h3 {
+  /* ADJUST PROJECT TITLE SIZE HERE */
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ============================= */
+/* PROJECT GRID + HOVER CARDS */
+/* ============================= */
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.project-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+}
+
+.project-front {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.project-back {
+  position: absolute;
+  inset: 0;
+  padding: 1.5rem;
+  background: rgba(20, 20, 30, 0.95);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  overflow-y: auto;
+}
+
+.project-front {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.project-back {
+  background: rgba(20, 20, 30, 0.95);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+}
+
+.project-card:hover .project-back {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.project-card:hover .project-front {
+  opacity: 0;
+}
+
+
+.project-back ul {
+  padding-left: 1.2rem;
+}
+
+.project-back li {
+  margin-bottom: 0.6rem;
+  font-size: 1rem;
+}
+
+/* ============================= */
+/* FEATURED PROJECT */
+/* ============================= */
+
+.project-card.featured {
+  grid-column: span 2;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.featured-badge {
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #ffd6ff;
+  margin-bottom: 0.75rem;
+}
+
+.project-front .role {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+/* ============================= */
+/* TECH TAGS */
+/* ============================= */
+
+.tech-tags {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tech-tags span {
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ============================= */
+/* FULL-WIDTH PROJECTS SECTION */
+/* ============================= */
+
+#projects {
+  grid-column: 1 / -1;        /* Take full grid width */
+  width: 100%;
+  background: rgba(15, 15, 25, 0.85);
+}
+
+#projects .project-grid {
+  max-width: 1200px;          /* Keeps it readable */
+  margin: 0 auto;             /* Centers the grid */
+}
+
+#contact a {
+  color: #91a9ff; /* 👈 EDIT THIS COLOUR */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+#contact a:hover {
+  color: #ffd6ff; /* hover colour */
+  text-decoration: underline;
+}
