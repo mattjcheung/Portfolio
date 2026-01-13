@@ -52,20 +52,19 @@ Open this link in your browser to view the site.
 
 ```
 
-🛠️ Tech Stack
-Vite – Fast development build tool
+## 🛠️ Tech Stack
 
-Three.js – Interactive 3D background and animations
+- **Vite** – Fast development build tool  
+- **Three.js** – Interactive 3D background and animations  
+- **HTML / CSS** – Responsive layout and UI  
+- **JavaScript (ES Modules)** – Application logic  
+- **WebGL** – GPU-accelerated rendering  
 
-HTML / CSS – Responsive layout and UI
+---
 
-JavaScript (ES Modules) – Application logic
+## 📁 Project Structure (Simplified)
 
-WebGL – GPU-accelerated rendering
-
-📁 Project Structure (Simplified)
-text
-Copy code
+```text
 .
 ├── index.html
 ├── style.css
@@ -75,14 +74,17 @@ Copy code
 │   └── *.glb
 ├── package.json
 └── README.md
+```
+
 📌 Notes
 This project is intended to be run locally using the Vite dev server.
 
 Production builds can be generated using:
 
-bash
+```bash
 Copy code
 npm run build
+```
 The site is fully responsive and designed to scale across screen sizes.
 
 📫 Contact
@@ -94,20 +96,4 @@ LinkedIn: https://www.linkedin.com/in/mattjcheung/
 
 Thanks for checking it out!
 
-yaml
-Copy code
-
 ---
-
-### Why this README works well
-- Immediately prevents the **OneDrive/Vite issue** (huge)
-- Clear setup steps (recruiters *do* try running projects)
-- Professional tone without being bloated
-- Shows you understand tooling and developer experience
-
-If you want next, I can:
-- Add a **“Deployment”** section (GitHub Pages / Netlify)
-- Rewrite this to be even more recruiter-facing
-- Add badges (Vite, Three.js, Node)
-
-Just let me know.
